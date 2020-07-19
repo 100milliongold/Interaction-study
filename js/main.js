@@ -61,8 +61,14 @@
   function scrollLoop() {
     prevScrollHeight = 0;
     for (let i = 0; i < currentScene; i++) {
-      prevScrollHeight += sceneInfo[i].scrollHeight;
+      prevScrollHeight = prevScrollHeight + sceneInfo[i].scrollHeight;
     }
+
+    console.log({
+      yOffset,
+      prevScrollHeight,
+      test: prevScrollHeight + sceneInfo[currentScene].scrollHeight,
+    });
 
     if (yOffset > prevScrollHeight + sceneInfo[currentScene].scrollHeight) {
       currentScene++;
@@ -71,13 +77,13 @@
     if (yOffset < prevScrollHeight) {
       currentScene--;
     }
+
     console.log(currentScene);
   }
 
   window.addEventListener("resize", setLayout);
   window.addEventListener("scroll", () => {
     yOffset = window.pageYOffset;
-
     scrollLoop();
   });
   setLayout();
