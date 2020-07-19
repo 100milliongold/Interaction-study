@@ -64,17 +64,15 @@
       prevScrollHeight = prevScrollHeight + sceneInfo[i].scrollHeight;
     }
 
-    console.log({
-      yOffset,
-      prevScrollHeight,
-      test: prevScrollHeight + sceneInfo[currentScene].scrollHeight,
-    });
-
     if (yOffset > prevScrollHeight + sceneInfo[currentScene].scrollHeight) {
       currentScene++;
     }
 
     if (yOffset < prevScrollHeight) {
+      if (currentScene === 0) {
+        // 브라우저 바운스 효과로 인한 마이너스가 되는것을 방지 (모바일)
+        return;
+      }
       currentScene--;
     }
 
