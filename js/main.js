@@ -44,7 +44,7 @@
       sceneInfo[i].scrollHeight = sceneInfo[i].heightNum * window.innerHeight;
       sceneInfo[
         i
-      ].objs.container.style.height = `${sceneInfo[i].scrollHeight}px;`;
+      ].objs.container.style.height = `${sceneInfo[i].scrollHeight}px`;
     }
   }
   window.addEventListener("resize", setLayout);
