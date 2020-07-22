@@ -18,10 +18,13 @@
         messageD: document.querySelector("#scroll-section-0 .main-message.d"),
       },
       values: {
-        messageA_opacity: [0, 1, { start: 0.1, end: 0.2 }], // start , end : 애니메이션 재생구간
-        messageB_opacity: [0, 1, { start: 0.3, end: 0.4 }],
-        messageC_opacity: [0, 1, { start: 0.5, end: 0.6 }],
-        messageD_opacity: [0, 1, { start: 0.7, end: 0.8 }],
+        messageA_opacity_in: [0, 1, { start: 0.1, end: 0.2 }], // start , end : 애니메이션 재생구간
+        // messageB_opacity_in: [0, 1, { start: 0.3, end: 0.4 }],
+        messageA_opacity_out: [1, 0, { start: 0.25, end: 0.3 }],
+        // messageB_opacity_out: [1, 0, { start: 0.7, end: 0.8 }],
+
+        messageA_translateY_in: [20, 0, { start: 0.1, end: 0.2 }],
+        messageA_translateY_out: [0, -20, { start: 0.25, end: 0.3 }],
       },
     },
     {
@@ -118,15 +121,39 @@
     const objs = sceneInfo[currentScene].objs;
     const values = sceneInfo[currentScene].values;
     const currentYOffset = yOffset - prevScrollHeight;
+    const scrollHeight = sceneInfo[currentScene].scrollHeight;
+    const scrollRatio = (yOffset - prevScrollHeight) / scrollHeight;
+
     switch (currentScene) {
       case 0:
         // console.log("0 play");
         // fade in
-        let messageA_opacity_in = calcsValues(
-          values.messageA_opacity,
+        const messageA_opacity_in = calcsValues(
+          values.messageA_opacity_in,
           currentYOffset
         );
-        objs.messageA.style.opacity = messageA_opacity_in;
+        const messageA_opacity_out = calcsValues(
+          values.messageA_opacity_out,
+          currentYOffset
+        );
+
+        const messageA_translateY_in = calcsValues(
+          values.messageA_translateY_in,
+          currentYOffset
+        );
+        const messageA_translateY_out = calcsValues(
+          values.messageA_translateY_out,
+          currentYOffset
+        );
+        if (scrollRatio <= 0.22) {
+          // in
+          objs.messageA.style.opacity = messageA_opacity_in;
+          objs.messageA.style.transform = `translateY(${messageA_translateY_in}%)`;
+        } else {
+          // out
+          objs.messageA.style.opacity = messageA_opacity_out;
+          objs.messageA.style.transform = `translateY(${messageA_translateY_out}%)`;
+        }
         break;
       case 1:
         // console.log("1 play");
